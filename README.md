@@ -129,7 +129,7 @@ In order to reduce the dimensionality, I will try a more generalized approach to
 
 Any key to the left of the red line is reduced to left (l) and any key to the right of the red line is reduced to right (r). If shift is pressed, the key is represented as an upper-case character (L and R). Extracted features can now be described by the following table.You may notice that there are no features going from a lowercase key to an uppercase key. This is left out due to its rarity in natural language.
 
-<table border="1" style="width: 100%;">
+<table>
     <caption><b>Extracted Features</b></caption>
     <tr>
         <th></th>
