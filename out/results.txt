@@ -1,0 +1,38 @@
+Estimator Summary
++------------------------+--------------------+
+|       Algorithm        |       Score        |
++------------------------+--------------------+
+|     MultinomialNB      | 0.9726027397260275 |
+|   LogisticRegression   | 0.9726027397260275 |
+|  KNeighborsClassifier  | 0.9945205479452055 |
+|       LinearSVC        | 0.9726027397260275 |
+| DecisionTreeClassifier | 0.9561643835616438 |
+|   BaggingClassifier    | 0.9561643835616438 |
+|   AdaBoostClassifier   | 0.9534246575342467 |
+| RandomForestClassifier | 0.9945205479452055 |
+|    VotingClassifier    | 0.9753424657534246 |
+|     MLPClassifier      | 0.9753424657534246 |
++------------------------+--------------------+
+
+Best Estimator
+Pipeline(steps=[('classifier',
+                 RandomForestClassifier(max_depth=5, max_leaf_nodes=10,
+                                        min_samples_leaf=2, n_estimators=10))])
+
+Best Score
+1.0
+
+Classification Report
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        53
+           1       1.00      1.00      1.00        39
+
+    accuracy                           1.00        92
+   macro avg       1.00      1.00      1.00        92
+weighted avg       1.00      1.00      1.00        92
+
+
+Confusion Matrix
+[[53  0]
+ [ 0 39]]

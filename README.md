@@ -67,7 +67,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-Keystroke biometrics, or keystroke dynamics, suggests that individuals may be identified by their typing rhythm. This is characterized as a behavioral biometric since the biometric factor is something a user does. This could have significant information security implications. For example, a malicious actor may be identified by their keystrokes similiar to a fingerprint or signature. Outside of digital forensics, keystroke dynamics can be used for authentication systems. Essentialy, the way an individual types a password would be more important than the password itself. This could be plausible as typing rhythm is extremely difficult to imitate. Another potential application is bot detection. Currently, CAPTCHAs are the default method of detecting bots. Most CAPTCHAs, including Google's reCAPTCHA, are vulnerable to adversarial machine learning attacks. An example CAPTCHA-breaking bot can be found [here](https://github.com/reevesba/captcha-bot). Alternative methods that utilize keystroke dynamics should be able to easily distinguish between bots and humans. The focus of this project will be on the latter application of detecting bots.  
+Keystroke biometrics, or keystroke dynamics, suggests that individuals may be identified by their typing rhythm. This is characterized as a behavioral biometric since the biometric factor is something a user does. This could have significant information security implications. For example, a malicious actor may be identified by their keystrokes similar to a fingerprint or signature. Outside of digital forensics, keystroke dynamics can be used for authentication systems. Essentially, the way an individual types a password would be more important than the password itself. This could be plausible as typing rhythm is extremely difficult to imitate. Another potential application is bot detection. Currently, CAPTCHAs are the default method of detecting bots. Most CAPTCHAs, including Google's reCAPTCHA, are vulnerable to adversarial machine learning attacks. An example CAPTCHA-breaking bot can be found [here](https://github.com/reevesba/captcha-bot). Alternative methods that utilize keystroke dynamics should be able to easily distinguish between bots and humans. The focus of this project will be on the latter application of detecting bots.  
 
 ### Built With
 <a href="https://www.python.org/" target="_blank">
@@ -121,13 +121,13 @@ Unfortunately, the collected data cannot immediately identify a user's keystroke
 As humans are imperfect beings, erroneous characters are collected in addition to the requested characters. We must first remove any erroneous characters from the dataset.
 
 ### Feature selection
-There are hundreds of potential features in this dataset. Most of these features can be generalized as **Dwell Time** (or hold time) and **Flight Time** (or latency). Dwell time refers to the time duration that a key is pressed. This alone could give us 26+ features (one for each valid key). Flight time refers to the time duration in between key strokes. Two primary variations include the time duration between two consecutive key down events and the time duration between releasing a key (keyup) and pressing the next key (keydown). This could give us another 2,704+ features (52 lower and upper case characters squared). Because I am using every letter in the alphabet in my sentences, I will need to find another way of deriving features. One other potentially useful feature could be the characters typed per minute. 
+There are thousands of potential features in this dataset. Most of these features can be generalized as **Dwell Time** (or hold time) and **Flight Time** (or latency). Dwell time refers to the time duration that a key is pressed. This alone could give us 26+ features (one for each valid key). Flight time refers to the time duration in between keystrokes. Two primary variations include the time duration between two consecutive key down events and the time duration between releasing a key (keyup) and pressing the next key (keydown). This could give us another 2,704+ features (52 lower and upper case characters squared). Because I am using every letter in the alphabet in my sentences, I will need to find another way of deriving features. One other potentially useful feature could be the characters typed per minute. 
 
-In order to reduce the dimensionality, I will try a more generalized approach to dwell and flight times. First, I will divide the keyboard into two sections according to the typical touch-typing convention. 
+To reduce the dimensionality, I will try a more generalized approach to dwell and flight times. First, I will divide the keyboard into two sections according to the typical touch-typing convention. 
 
 ![keyboard](img/qwerty-keyboard.svg)
 
-Any key to the left of the red line is reduced to left (l) and any key to the right of the red line is reduced to right (r). If shift is pressed, the key is represented as an upper-case character (L and R). Extracted features can now be described by the following table.You may notice that there are no features going from a lowercase key to an uppercase key. This is left out due to its rarity in natural language.
+Any key to the left of the red line is reduced to left (l) and any key to the right of the red line is reduced to right (r). If shift is pressed, the key is represented as an upper-case character (L and R). Extracted features can now be described by the following table. You may notice that no features are going from a lowercase key to an uppercase key. This is left out due to its rarity in natural language.
 
 <table>
     <caption><b>Extracted Features</b></caption>
@@ -202,13 +202,57 @@ Any key to the left of the red line is reduced to left (l) and any key to the ri
 </table>
 
 ### Model Selection
-To be determined...
+The following classification algorithms were selected for initial testing. They were all run with SciKit-Learn's default parameters.
+- Naive Bayes
+- Logistic Regression
+- K-Nearest Neighbors
+- Support Vector Machine
+- Decision Tree
+- Decision Tree w/ Bagging
+- Decision Tree w/ Boosting
+- Random Forest
+- Voting Classifier
+  - Naive Bayes
+  - Logistic Regression
+  - Random Forest
+  - Support Vector Machine
+- Multilayer Perceptron
 
 ### Evaluation
-To be determined...
+Each model was evaluated using 5-fold cross-validation. The results were good for all classifiers.
+
+| Algorithm                 | Score  |
+| ------------------------- | ------ |
+| Naive Bayes               | 0.9726 |
+| Logistic Regression       | 0.9726 |
+| K-Nearest Neighbors       | 0.9945 |
+| Support Vector Machine    | 0.9726 |
+| Decision Tree             | 0.9726 |
+| Decision Tree w/ Bagging  | 0.9534 |
+| Decision Tree w/ Boosting | 0.9726 |
+| Random Forest             | 0.9836 |
+| Voting Classifier         | 0.9753 |
+| Multilayer Perceptron     | 0.9781 |
 
 ### Optimization
-To be determined...
+A grid search was performed on the top two algorithms, Random Forest and K-Nearest Neighbors, using the following parameters.
+
+1. Random Forest
+    - n_estimators: [10, 100, 1000]
+    - max_depth: [5, 10, 15]
+    - min_samples_leaf: [1, 2, 5, 10]
+    - max_leaf_nodes: [2, 5, 10]
+2. K-Nearest Neighbors
+    - n_neighbors: [5, 10, 15]
+    - weights: [uniform, distance]
+    - metric: [euclidean, manhattan]
+
+Grid Search Results
+- Classifier: Random Forest
+- n_estimators: 100
+- max_depth: 5
+- min_samples_leaf: 1
+- max_leaf_nodes: 5
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -230,9 +274,11 @@ There are many things this project can be used to explore. These include, but ar
 ## Roadmap
 See the [open issues](https://github.com/reevesba/keystroke-biometrics/issues) for a list of proposed features (and known issues).
 
+It would be great to generate more realistic bot keystrokes. Maybe using a GAN or Gaussian Mixture Model.
+
 <!-- CONTRIBUTING -->
 ## Contributing
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/newFeature`)
@@ -262,5 +308,3 @@ Project Link: [https://github.com/reevesba/keystroke-biometrics](https://github.
 [issues-url]: https://github.com/reevesba/keystroke-biometrics/issues
 [license-shield]: https://img.shields.io/github/license/reevesba/keystroke-biometrics.svg?style=for-the-badge
 [license-url]: https://github.com/reevesba/keystroke-biometrics/blob/master/LICENSE.txt
- 
-

@@ -13,20 +13,21 @@ from random import uniform
 
 KeyLoggerBot = TypeVar("KeyLoggerBot")
 
+
 class KeyLoggerBot:
-    def __init__(self: KeyLoggerBot, field_names: List, sentences: List) -> None:
+    def __init__(self: KeyLoggerBot, fld_names: List, sentences: List) -> None:
         ''' Initialize KeyLoggerBot instance
             Parameters
             ----------
             self : KeyLoggerBot instance
-            field_names : Input fields
+            fld_names : Input field names
             sentences : Sentences to type
 
             Returns
             -------
             None
         '''
-        self.field_names = field_names
+        self.field_names = fld_names
         self.sentences = sentences
 
     def slow_type(self: KeyLoggerBot, element: WebElement, sentence: str):
@@ -65,7 +66,9 @@ class KeyLoggerBot:
 
         # Set the isbot field
         isbot_input = driver.find_element_by_name("isbot")
-        driver.execute_script("arguments[0].removeAttribute('Style')", isbot_input)
+        driver.execute_script(
+            "arguments[0].removeAttribute('Style')", isbot_input
+        )
         isbot_input.send_keys('1')
 
         # Type the sentences
@@ -73,6 +76,6 @@ class KeyLoggerBot:
             sentence_input = driver.find_element_by_name(self.field_names[i])
             self.slow_type(sentence_input, self.sentences[i])
             sleep(1)
-        
+
         sleep(5)
         driver.quit()

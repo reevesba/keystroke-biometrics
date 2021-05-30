@@ -7,6 +7,7 @@ Date: 05/22/2021
 
 from kb_bot import KeyLoggerBot
 
+
 def main():
     # Setup data to send
     field_names = ["sentence" + str(i) for i in range(10)]
@@ -26,6 +27,7 @@ def main():
     # Execute bot
     bot = KeyLoggerBot(field_names=field_names, sentences=sentences)
     bot.execute()
+
 
 if __name__ == "__main__":
     main()
