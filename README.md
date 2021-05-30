@@ -105,7 +105,7 @@ As you can likely see, these sentences are just random pangrams. The site logs k
 | Field Name | Data Type   | Description                   |
 | ---------- | ----------- | ----------------------------- |
 | uuid       | varchar(50) | Universally unique identifier |
-| sentence_id| int         | event input field ID          |
+| sentence_id| int         | Event input field ID          |
 | key_event  | varchar(10) | 'keyup' or 'keydown'          |
 | key_code   | int         | Key numeric identifier        |
 | key_char   | varchar(10) | Key character identifier      |
