@@ -31,7 +31,9 @@ def main():
     plt.close()
 
     # View distributions and correlations
-    pairplot = sns.pairplot(dataset, hue="is_bot")
+    # Plot will be huge, so let's select just some features
+    pairplot_data = dataset[["lr", "Lr", "cpm", "is_bot"]]
+    pairplot = sns.pairplot(pairplot_data, hue="is_bot")
     pairplot.savefig("../../out/eda_pairplot.png")
     plt.close()
 
